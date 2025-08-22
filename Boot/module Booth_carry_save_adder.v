@@ -90,4 +90,9 @@ module multiplier #(
 
     // конечная сумма
     assign product_result = csa_output_sum[5] + csa_output_carry[5];
+    //проверка
+    //assign product_result = partial_product[0] + partial_product[1] + partial_product[2] + 
+                            //partial_product[3] + partial_product[4] + partial_product[5] + 
+                            //partial_product[6] + partial_product[7];
 endmodule
+
