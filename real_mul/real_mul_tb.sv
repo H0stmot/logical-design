@@ -8,11 +8,8 @@ module real_mul_tb;
     integer test_counter;
     integer error_count;
 
-    // ================== FP16 (half) ==================
-    // Для half precision в Verilog нет системных функций конверсии
-    // (аналогов $bitstoshortreal), поэтому эталонные значения заданы
-    // вручную в hex, т.к. тестовые числа (1.0, 2.0, 1.5, 3.0, 4.0)
-    // точно представимы в fp16.
+    // FP16 (half)
+
     reg  [63:0] op_a_h, op_b_h;
     wire [63:0] res_h;
     reg  [15:0] exp_h;
@@ -23,7 +20,7 @@ module real_mul_tb;
         .result(res_h)
     );
 
-    // ================== FP32 (single) ==================
+    //FP32 (single)
     reg  [63:0] op_a_s, op_b_s;
     wire [63:0] res_s;
     real real_a_s, real_b_s, real_res_s;
@@ -42,7 +39,7 @@ module real_mul_tb;
         exp_s      = {32'b0, $shortrealtobits(real_res_s)};
     end
 
-    // ================== FP64 (double) ==================
+    // FP64 (double)
     reg  [63:0] op_a_d, op_b_d;
     wire [63:0] res_d;
     real real_a_d, real_b_d, real_res_d;
@@ -135,7 +132,7 @@ module real_mul_tb;
         if (rst == 0 && test_counter > 0) begin
             #1; // небольшая задержка для стабилизации
 
-            // ---- FP16 ----
+            // FP16 
             if (res_h !== exp_h_delayed && exp_h_delayed !== 64'b0) begin
                 $display("ERROR (half) Test %0d:", test_counter);
                 $display("  Input A: %h", op_a_h[15:0]);
@@ -147,7 +144,7 @@ module real_mul_tb;
                 $display("PASS (half) Test %0d: %h * %h = %h", test_counter, op_a_h[15:0], op_b_h[15:0], res_h[15:0]);
             end
 
-            // ---- FP32 ----
+            // FP32
             if (res_s !== exp_s_delayed && exp_s_delayed !== 64'b0) begin
                 $display("ERROR (single) Test %0d:", test_counter);
                 $display("  Input A: %h (%.6f)", op_a_s[31:0], real_a_s);
@@ -159,7 +156,7 @@ module real_mul_tb;
                 $display("PASS (single) Test %0d: %.1f * %.1f = %.1f", test_counter, real_a_s, real_b_s, real_res_s);
             end
 
-            // ---- FP64 ----
+            // FP64 
             if (res_d !== exp_d_delayed && exp_d_delayed !== 64'b0) begin
                 $display("ERROR (double) Test %0d:", test_counter);
                 $display("  Input A: %h (%.6f)", op_a_d, real_a_d);
